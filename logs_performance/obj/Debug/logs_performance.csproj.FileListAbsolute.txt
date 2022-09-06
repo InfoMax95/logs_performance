@@ -1,0 +1,8 @@
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\bin\Debug\logs_performance.exe.config
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\bin\Debug\logs_performance.exe
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\bin\Debug\logs_performance.pdb
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\logs_performance.csproj.AssemblyReference.cache
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\logs_performance.csproj.SuggestedBindingRedirects.cache
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\logs_performance.csproj.CoreCompileInputs.cache
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\logs_performance.exe
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\logs_performance.pdb

@@ -2,4 +2,4 @@
 - scrivere sulla tabella-->orario creazione con nome file e messaggio che indica l'operazione svolta
 - ciclare e iniziare a recuperare dalla tabella del db i file con messaggio "documento creato" e scriverci qualcosa all'interno-->scrivere in tabella orario, nome file
   e messaggio per indicare che è stato scritto qualcosa all'interno del file stesso
-- rendere univoco il codice identificativo, possibile scrivere nome documento + numero casuale non ancora presente
+- rendere univoco il codice identificativo, si potrebbe scrivere nome documento + numero casuale (univoco)
