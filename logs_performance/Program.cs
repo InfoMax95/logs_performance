@@ -84,7 +84,7 @@ namespace logs_performance
                        }                   
                    });
             */
-            /*
+            
             bool write = true;
             bool read = true;
             while (true)
@@ -100,18 +100,18 @@ namespace logs_performance
                   () =>
                   {
                       if (read)
-                      { */
+                      { 
                           List<GetLogs> lists = ReadLogs();
-            Console.WriteLine("lettura completata");
+                          Console.WriteLine("lettura completata");
                           foreach (GetLogs list in lists)
                           {
                               Console.WriteLine(list);
                           }
-                     /* }
+                      }
                   });
 
                 System.Threading.Thread.Sleep(3000); 
-            } */
+            } 
         }
 
         private void __OldMethod()
