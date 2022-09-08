@@ -14,11 +14,11 @@ namespace logs_performance
 {
     internal class Program
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Program));    
+        //private static readonly ILog log = LogManager.GetLogger(typeof(Program));    
         //private static readonly ILog log = LogManager.GetLogger(typeof(Program));
         static void Main(string[] args)
         {
-            log4net.Config.XmlConfigurator.Configure();
+            //log4net.Config.XmlConfigurator.Configure();
             // invoco i due metodi parallelamente tramite il metodo della classe Parallel->Invoke()
             Operation op = new Operation();
             Parallel.Invoke(
@@ -47,7 +47,7 @@ namespace logs_performance
                     List<GetLogs> lists = ReadLogs();
                     foreach (GetLogs list in lists)
                     {
-                        log.DebugFormat("PK: {0}\nIdentify: {1}\nMessage: {2}\nTimeStamp: {3}\nInsertDate: {4}", list.PK, list.Identify, list.Message, list.TimeStamp, list.InsertDate);
+                        Console.WriteLine("PK: {0}\nIdentify: {1}\nMessage: {2}\nTimeStamp: {3}\nInsertDate: {4}", list.PK, list.Identify, list.Message, list.TimeStamp, list.InsertDate);
                     }
                     i++;
                     Thread.Sleep(2000);
