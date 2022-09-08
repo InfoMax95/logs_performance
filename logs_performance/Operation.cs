@@ -5,23 +5,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Logs
+namespace logs_performance
 {
     internal class Operation
     {
-        public void WriteCharacters(int x)
+        public string[] documentType = { "MATMAS", "LOIBOM", "LOIROI", "JISORD" };
+        public void WriteCharacters(int x, string s)
         {
             // Delete the file if it exists.
-            if (File.Exists($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest{x}.txt"))
+            if (File.Exists($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest_{s}_{x}.txt"))
             {
-                File.Delete($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest{x}.txt");
+                File.Delete($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest_{s}_{x}.txt");
             }
+            File.Create($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest_{s}_{x}.txt");
+        }
 
-            // Create the file.
-            using (FileStream fs = File.Create($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest{x}.txt"))
+        public void WriteInto(int x, string s)
+        {
+            using(FileStream fs = File.Open($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest_{s}_{x}.txt", FileMode.Open))
             {
-                AddText(fs, "This is some text");
-                AddText(fs, "This is some more text,");
+                AddText(fs, s.ToUpper());
+                AddText(fs, "\nThis is some text");
+                AddText(fs, "\nThis is some more text,");
                 AddText(fs, "\r\nand this is on a new line");
                 AddText(fs, "\r\n\r\nThe following is a subset of characters:\r\n");
 
@@ -30,7 +35,6 @@ namespace Logs
                     AddText(fs, Convert.ToChar(i).ToString());
                 }
             }
-
         }
 
         public void AddText(FileStream fs, string value)

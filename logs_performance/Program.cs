@@ -6,14 +6,80 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.IO;
+using System.Threading;
+using log4net;
 
 namespace logs_performance
 {
     internal class Program
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(Program));    
         //private static readonly ILog log = LogManager.GetLogger(typeof(Program));
         static void Main(string[] args)
         {
+            log4net.Config.XmlConfigurator.Configure();
+            // invoco i due metodi parallelamente tramite il metodo della classe Parallel->Invoke()
+            Operation op = new Operation();
+            Parallel.Invoke(
+            () =>
+            {
+                // creo file e inserisco prime informazioni nel db
+                int i = 0;
+                while (i < (i + 1))
+                {
+                    foreach (string type in op.documentType)
+                    {
+                        op.WriteCharacters(i, type);
+                        DateTime getCreationTime = File.GetCreationTime($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest_{type}_{i}.txt");
+                        InsertLogs($"{type}_{i}", "Create", getCreationTime);
+                    }
+                    i++;
+                    Thread.Sleep(1000);
+                }
+            },
+            () =>
+            {
+                // leggo file dal db e scrivo dentro il file, poi ritrascrivo questa operazione nel db
+                int i = 0;
+                while(i < (i + 1))
+                {
+                    List<GetLogs> lists = ReadLogs();
+                    foreach (GetLogs list in lists)
+                    {
+                        log.DebugFormat("PK: {0}\nIdentify: {1}\nMessage: {2}\nTimeStamp: {3}\nInsertDate: {4}", list.PK, list.Identify, list.Message, list.TimeStamp, list.InsertDate);
+                    }
+                    i++;
+                    Thread.Sleep(2000);
+                }
+            },
+            async () =>
+            {
+                // creo file e inserisco prime informazioni nel db
+                await Task.Delay(5000);
+                int i = 0;
+                while (i < (i + 1))
+                {
+                    foreach (string type in op.documentType)
+                    {
+                        op.WriteInto(i, type);
+                        Console.WriteLine("Update con successo!");
+                        DateTime getUpdateTime = File.GetLastWriteTime($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest_{type}_{i}.txt");
+                        InsertLogs($"{type}_{i}", "Update", getUpdateTime);
+                        Thread.Sleep(10000);
+                    }
+                    i++;
+                    Thread.Sleep(10000);
+                }
+            });
+            
+            // tengo aperta la console
+            Console.Read();
+
+            
+
+
+
             // verificare connessione con db
             /*
                using(SqlConnection conn = new SqlConnection(connectionString))
@@ -84,34 +150,8 @@ namespace logs_performance
                        }                   
                    });
             */
-            
-            bool write = true;
-            bool read = true;
-            while (true)
-            {
-                Parallel.Invoke(
-                  () =>
-                  {
-                      if (write)
-                      {
-                          InsertLogs($"document", $"message", DateTime.Now);
-                      }
-                  },
-                  () =>
-                  {
-                      if (read)
-                      { 
-                          List<GetLogs> lists = ReadLogs();
-                          Console.WriteLine("lettura completata");
-                          foreach (GetLogs list in lists)
-                          {
-                              Console.WriteLine(list);
-                          }
-                      }
-                  });
 
-                System.Threading.Thread.Sleep(3000); 
-            } 
+
         }
 
         private void __OldMethod()
@@ -191,7 +231,7 @@ namespace logs_performance
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Errore metodo insertlogs: {ex.Message}");
             }
         }
 
@@ -208,9 +248,9 @@ namespace logs_performance
                     using (SqlCommand cmd = new SqlCommand(stored_proc, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.Add("@id ", SqlDbType.NVarChar, 250);
-                        cmd.Parameters.Add("@message ", SqlDbType.NVarChar, 400);
-                        cmd.Parameters.Add("@t ", SqlDbType.DateTime);
+                        //cmd.Parameters.Add("@id ", SqlDbType.NVarChar, 250);
+                        //cmd.Parameters.Add("@message ", SqlDbType.NVarChar, 400);
+                        //cmd.Parameters.Add("@t ", SqlDbType.DateTime);
                         conn.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -228,16 +268,23 @@ namespace logs_performance
                         }
                         return logs;
                     }
-
                 }
+            }
+            catch (InvalidCastException castInvalidEx)
+            {
+                Console.WriteLine("Errore InvalidCast intercettato: {0}", castInvalidEx.Message);
+                return null;
+            }
+            catch (SqlException sqlEx)
+            {
+                Console.WriteLine("Errore SQL intercettato: {0}", sqlEx.Message);
+                return null;
             }
             catch (Exception ex)
             {
                 Console.WriteLine("Errore intercettato: {0}", ex.Message);
-                return logs;
+                return null;
             }
         }
-
-
     }
 }

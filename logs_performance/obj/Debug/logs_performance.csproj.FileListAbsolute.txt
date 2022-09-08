@@ -6,3 +6,7 @@ C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\l
 C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\logs_performance.csproj.CoreCompileInputs.cache
 C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\logs_performance.exe
 C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\logs_performance.pdb
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\bin\Debug\log4net.config
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\bin\Debug\log4net.dll
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\bin\Debug\log4net.xml
+C:\Users\m.gasaro.ext\source\repos\logs_performance\logs_performance\obj\Debug\logs_performance.csproj.CopyComplete
