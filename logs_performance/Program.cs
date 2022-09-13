@@ -15,7 +15,6 @@ namespace logs_performance
     internal class Program
     {
         //private static readonly ILog log = LogManager.GetLogger(typeof(Program));    
-        //private static readonly ILog log = LogManager.GetLogger(typeof(Program));
         static void Main(string[] args)
         {
             //log4net.Config.XmlConfigurator.Configure();
@@ -55,7 +54,6 @@ namespace logs_performance
             },
             async () =>
             {
-                // creo file e inserisco prime informazioni nel db
                 await Task.Delay(5000);
                 int i = 0;
                 while (i < (i + 1))
@@ -66,15 +64,14 @@ namespace logs_performance
                         Console.WriteLine("Update con successo!");
                         DateTime getUpdateTime = File.GetLastWriteTime($@"C:\Users\m.gasaro.ext\Documents\test_bench\MyTest_{type}_{i}.txt");
                         InsertLogs($"{type}_{i}", "Update", getUpdateTime);
-                        Thread.Sleep(10000);
                     }
                     i++;
-                    Thread.Sleep(10000);
+                    Thread.Sleep(5000);
                 }
             });
             
             // tengo aperta la console
-            Console.Read();
+            // Console.Read();
 
             
 
@@ -231,7 +228,7 @@ namespace logs_performance
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Errore metodo insertlogs: {ex.Message}");
+                Console.WriteLine($"Errore metodo insertLogs: {ex.Message}");
             }
         }
 
@@ -248,6 +245,10 @@ namespace logs_performance
                     using (SqlCommand cmd = new SqlCommand(stored_proc, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+
+                        /* capire perchè se inserisco questi parametri da un errore di lettura,
+                           forse perchè bisognerrebbe anche riportarli nella stored */
+
                         //cmd.Parameters.Add("@id ", SqlDbType.NVarChar, 250);
                         //cmd.Parameters.Add("@message ", SqlDbType.NVarChar, 400);
                         //cmd.Parameters.Add("@t ", SqlDbType.DateTime);
